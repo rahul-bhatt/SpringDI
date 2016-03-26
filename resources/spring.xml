@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   
+	   <!-- 
+	   default init and destory methods for all beans in a given context
+	   would be called for all beans if such methods exist, otherwise
+	   nothing would happen.
+	   
+	   default-init-method="turnOnLights"
+	   default-destroy-method="turnOffLights" -->
+	   
+  <!-- DI using contructor -->
+  <bean id="duke" class="spring.di.xmlwiring.Juggler">
+  	<constructor-arg value="15"/>
+  </bean>
+
+  <bean id="sonnet29" class="spring.di.xmlwiring.Sonnet29">
+  </bean>
+  
+  <bean id="poeticDuke" class="spring.di.xmlwiring.PoeticJuggler">
+  	<constructor-arg value="15" />
+  	<constructor-arg ref="sonnet29" />
+  </bean>
+  
+  <!-- creating beans for a class that uses factory method -->
+  <bean id="theStage" class="spring.di.xmlwiring.Stage" factory-method="getInstance">
+  </bean>
+  
+  <!--  Using "init" and "destroy" methods -->
+  <bean id="auditorium" class="spring.di.xmlwiring.Auditorium"
+	init-method="turnOnLights"
+	destroy-method="turnOffLights">
+  </bean>
+
+  <bean id="saxophone" class="spring.di.xmlwiring.Saxophone"/>
+  
+  <!-- DI using properties -->
+  <bean id="kenny" class="spring.di.xmlwiring.Instrumentalist">
+	<property name="song" value="JingleBells" />
+	<property name="instrument" ref="saxophone" />
+  </bean>
+	
+  <!-- Using Inner beans, John only plays his favorite instrument -->
+  <bean id="john" class="spring.di.xmlwiring.Instrumentalist">
+	<property name="song" value="JingleBells"/>
+	<property name="instrument">
+		<bean class="spring.di.xmlwiring.Saxophone"/>
+	</property>
+  </bean>
+
+  <bean id="guitar" class="spring.di.xmlwiring.Guitar"/>
+  <bean id="cymbal" class="spring.di.xmlwiring.Cymbal"/>
+  <bean id="harmonica" class="spring.di.xmlwiring.Harmonica"/>
+  
+  <!-- Using properties list -->
+  <bean id="hank" class="spring.di.xmlwiring.OneManBand">
+	<property name="instruments">
+		<list>
+			<ref bean="guitar"/>
+			<ref bean="cymbal"/>
+			<ref bean="harmonica"/>
+		</list>
+	</property>
+  </bean>
+
+  <!-- more bean definitions go here -->
+</beans>
